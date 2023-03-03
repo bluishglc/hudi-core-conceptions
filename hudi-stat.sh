@@ -14,19 +14,19 @@ for section in $sections; do
         tree --du -ahs -D --timefmt '%T' ~/$table
     else
         # make hudi-cli scripts and execute
-        echo "connect --path $path" > ~/hudi-cli-scripts
+        echo "connect --path $path" > /tmp/hudi-stat.snippets
         case $section in
             timeline)
-                echo "timeline show active" >> ~/hudi-cli-scripts
+                echo "timeline show active" >> /tmp/hudi-stat.snippets
             ;;
             compactions)
-                echo "compactions show all" >> ~/hudi-cli-scripts
+                echo "compactions show all" >> /tmp/hudi-stat.snippets
             ;;
             commits)
-                echo "commits show" >> ~/hudi-cli-scripts
+                echo "commits show" >> /tmp/hudi-stat.snippets
             ;;
         esac
         # for hudi-cli, only script mode can exit automatically
-        hudi-cli script ~/hudi-cli-scripts 2>/dev/null | grep -o -e '^[╔].*\|^[║].*\|^[╠].*\|^[╟].*\|^[╚].*'
+        hudi-cli script /tmp/hudi-stat.snippets 2>/dev/null | grep -o -e '^[╔].*\|^[║].*\|^[╠].*\|^[╟].*\|^[╚].*'
     fi
 done
